@@ -44,7 +44,7 @@ static const Rule rules[] = {
 	{ "VirtualBox Manager",            NULL,       NULL,       1 << 7,            0,           -1 },
 	{ "Pavucontrol",                   NULL,       NULL,       1 << 9,            1,           -1 },
 	{ "Pqiv",                          NULL,       NULL,       1 << 9,            1,           -1 },
-	{ "scratchpad",                          NULL,       NULL,       1 << 9,            1,           -1 },
+	{ "scratchpad",                    NULL,       NULL,       1 << 9,            1,           -1 },
 };
 
 // LAYOUT
@@ -76,7 +76,7 @@ static const char *dmenucmd[] = 		{ "dmenu_run", "-m", dmenumon, "-fn", dmenufon
 static const char *termcmd[] = 			{ "alacritty", "-e", "fish", NULL };
 static const char *scratchpadcmd[] = 	{ "tdrop", "-am", "-w", "60%", "-h", "60%", "-y", "20%", "-x", "20%", "alacritty", "--class", "scratchpad,scratchpad", "-e", "fish", NULL };
 static const char *clip[]  = 			{ "clipmenu", NULL };
-static const char *scrshot[]  = 		{ "flameshot", "gui", NULL };
+static const char *scrshot[]  = 		{ "scrot", "/home/srinath/Pictures/%Y-%m-%d.png", NULL };
 
 // VOLUME
 static const char *upvol[] = 	{ "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%", NULL };
@@ -140,7 +140,7 @@ static Key keys[] = {
 // BUTTONS
 // click can be ClkTagBar, ClkLtSymbol, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin
 static Button buttons[] = {
-	//CLICK                EVENT            BUTTON          FUNCTION        ARGUMENT
+	//CLICK                 EVENT           BUTTON          FUNCTION        ARGUMENT
 	{ ClkButton,			0,				Button1,		spawn,			{.v = termcmd } },
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
