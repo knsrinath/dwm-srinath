@@ -8,14 +8,25 @@ static const unsigned int gappx     = 10;
 static const int showbar            = 1;
 static const int topbar             = 1;
 static const char buttonbar[]       = "DWM";
-static const char *fonts[]          = { "JetBrains Mono:weight=bold:size=10:antialias=true:autohint=true" };
+static const char *fonts[]          = { "JetBrains Mono:weight=Bold:size=10:antialias=true:autohint=true" };
 static const char dmenufont[]       = "Jetbrains Mono:size=10:weight=Bold:antialias=true:autohint=true";
-static const char col_bg[]          = "#282a36";
-static const char col_fg[]          = "#ff79c6";
-static const char *colors[][3]      = {
+//static const char col_bg[]          = "#073642";
+//static const char col_fg[]          = "#eee8d5";
+//static const char col_bl[]          = "#2d8bcb";
+//static const char *colors[][3]      = {
 	/*                 fg      bg    border   */
-	[SchemeNorm] = { col_fg, col_bg, col_bg },
-	[SchemeSel]  = { col_bg, col_fg, col_fg },
+//	[SchemeNorm] = { col_bl, col_bg, col_bg },
+//	[SchemeSel]  = { col_bg, col_bl, col_bl },
+//};
+
+static const char nord_fg[]         = "#D8DEE9";
+static const char nord_bg[]         = "#2E3440";
+static const char nord_blue[]       = "#81A1C1";
+
+static const char *colors[][3]      = {
+	/*               fg         bg         border   */
+	[SchemeNorm] = { nord_fg,   nord_bg,   nord_bg   },
+	[SchemeSel]  = { nord_bg,   nord_blue, nord_blue },
 };
 
 // TAGGING
@@ -37,7 +48,7 @@ static const Rule rules[] = {
 	{ "Pcmanfm",                       NULL,       NULL,       1 << 2,            0,           -1 },
 	{ "Thunar",                        NULL,       NULL,       1 << 2,            0,           -1 },
 	{ "Geany",                         NULL,       NULL,       1 << 4,            0,           -1 },
-	{ "code-oss",                      NULL,       NULL,       1 << 4,            0,           -1 },
+	{ "Code - OSS",                      NULL,       NULL,       1 << 4,            0,           -1 },
 	{ "Minetest",                      NULL,       NULL,       1 << 6,            0,           -1 },
 	{ "chromium-bsu",                  NULL,       NULL,       1 << 6,            0,           -1 },
 	{ "supertuxkart",                  NULL,       NULL,       1 << 6,            0,           -1 },
@@ -87,6 +98,9 @@ static const char *mutevol[] = 	{ "pactl", "set-sink-mute", "@DEFAULT_SINK@", "t
 static const char *playpause[] = 	{ "playerctl", "play-pause", NULL };
 static const char *next[] = 		{ "playerctl", "next", NULL };
 static const char *prev[] = 		{ "playerctl", "previous", NULL };
+//static const char *playpause[] = 	{ "mpc", "toggle", NULL };
+//static const char *next[] = 		{ "mpc", "next", NULL };
+//static const char *prev[] = 		{ "mpc", "prev", NULL };
 
 // KEY BINDINGS
 static Key keys[] = {
