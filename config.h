@@ -8,34 +8,46 @@ static const unsigned int gappx     = 10;
 static const int showbar            = 1;
 static const int topbar             = 1;
 static const char buttonbar[]       = "DWM";
-static const char *fonts[]          = { "JetBrains Mono:weight=Bold:size=10:antialias=true:autohint=true" };
-static const char dmenufont[]       = "Jetbrains Mono:size=10:weight=Bold:antialias=true:autohint=true";
-//static const char col_bg[]          = "#073642";
-//static const char col_fg[]          = "#eee8d5";
-//static const char col_bl[]          = "#2d8bcb";
-//static const char *colors[][3]      = {
-	/*                 fg      bg    border   */
-//	[SchemeNorm] = { col_bl, col_bg, col_bg },
-//	[SchemeSel]  = { col_bg, col_bl, col_bl },
-//};
+//static const char scratchpadname[] = "scratchpad";
+static const char *fonts[]          = { "Jetbrains Mono:size=10:weight=bold:antialias=true:autohint=true"};
+static const char dmenufont[]       = "Jetbrains Mono:size=10:weight=bold:antialias=true:autohint=true";
 
-static const char nord_fg[]         = "#D8DEE9";
-static const char nord_bg[]         = "#2E3440";
-static const char nord_blue[]       = "#81A1C1";
+static const char nord_fg[]         = "#d8dee9";
+static const char nord_bg[]         = "#2e3440";
+static const char nord_blue[]       = "#81a1c1";
+static const char nord_ac[]         = "#434c5e";
+static const char nord_fl[]         = "#88c0d0";
 
 static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { nord_fg,   nord_bg,   nord_bg   },
-	[SchemeSel]  = { nord_bg,   nord_blue, nord_blue },
+	                   //fg         bg       border		float
+	[SchemeNorm] = { nord_fg,   nord_bg,   nord_ac},
+	[SchemeSel]  = { nord_bg,   nord_blue, nord_blue},
+};
+
+typedef struct {
+	const char *name;
+	const void *cmd;
+} Sp;
+const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", "-e", "fish", NULL };
+const char *spcmd2[] = {"st", "-n", "sphtop", "-g", "120x34", "-e", "htop", NULL };
+const char *spcmd3[] = {"st", "-n", "spfm", "-g", "120x34", "-e", "ranger", NULL };
+const char *spcmd4[] = {"st", "-n", "spwt", "-g", "125x40", "-f", "Jetbrains Mono:size=8", "-e", "/home/srinath/.local/bin/weather.sh", NULL };
+static Sp scratchpads[] = {
+	/* name          cmd  */
+	{"spterm",      spcmd1},
+	{"sphtop",    spcmd2},
+	{"spfm",   spcmd3},
+	{"spwt",   spcmd4},
 };
 
 // TAGGING
+//static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
 	// CLASS                         INSTANCE     TITLE         TAGS            FLOAT        MONITOR
 	{ "Gimp",                          NULL,       NULL,       1 << 8,            0,           -1 },
-	{ "Firefox",                       NULL,       NULL,       2,                 0,           -1 },
+	{ "firefox",                       NULL,       NULL,       2,                 0,           -1 },
 	{ "Tor Browser",                   NULL,       NULL,       1 << 8,            0,           -1 },	
 	{ "Chromium",                      NULL,       NULL,       2,                 0,           -1 },
 	{ "Google-chrome",                 NULL,       NULL,       2,                 0,           -1 },
@@ -48,14 +60,19 @@ static const Rule rules[] = {
 	{ "Pcmanfm",                       NULL,       NULL,       1 << 2,            0,           -1 },
 	{ "Thunar",                        NULL,       NULL,       1 << 2,            0,           -1 },
 	{ "Geany",                         NULL,       NULL,       1 << 4,            0,           -1 },
-	{ "Code - OSS",                      NULL,       NULL,       1 << 4,            0,           -1 },
+	{ "Code - OSS",                    NULL,       NULL,       1 << 4,            0,           -1 },
 	{ "Minetest",                      NULL,       NULL,       1 << 6,            0,           -1 },
 	{ "chromium-bsu",                  NULL,       NULL,       1 << 6,            0,           -1 },
 	{ "supertuxkart",                  NULL,       NULL,       1 << 6,            0,           -1 },
 	{ "VirtualBox Manager",            NULL,       NULL,       1 << 7,            0,           -1 },
 	{ "Pavucontrol",                   NULL,       NULL,       1 << 9,            1,           -1 },
+	{ "Conky",						   NULL,       NULL,       1 << 9,            1,           -1 },
 	{ "Pqiv",                          NULL,       NULL,       1 << 9,            1,           -1 },
-	{ "scratchpad",                    NULL,       NULL,       1 << 9,            1,           -1 },
+	//{ "scratchpad",                  NULL,       NULL,       1 << 9,            1,           -1 },
+	{ NULL,		  					 "spterm",	   NULL,	   SPTAG(0),		  1,		   -1 },
+	{ NULL,		  					  "sphtop",	   NULL,	   SPTAG(1),		  1,		   -1 },
+	{ NULL,		  					"spfm",			NULL,		SPTAG(2),			1,			 -1 },
+	{ NULL,		  					"spwt",			NULL,		SPTAG(3),			1,			 -1 },
 };
 
 // LAYOUT
@@ -84,15 +101,19 @@ static const Layout layouts[] = {
 // COMMANDS
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = 		{ "dmenu_run", "-m", dmenumon, "-fn", dmenufont, NULL };
-static const char *termcmd[] = 			{ "alacritty", "-e", "fish", NULL };
-static const char *scratchpadcmd[] = 	{ "tdrop", "-am", "-w", "60%", "-h", "60%", "-y", "20%", "-x", "20%", "alacritty", "--class", "scratchpad,scratchpad", "-e", "fish", NULL };
+static const char *termcmd[] = 			{ "st", "-e", "fish", NULL };
+//static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", "-e", "htop", NULL };
 static const char *clip[]  = 			{ "clipmenu", NULL };
-static const char *scrshot[]  = 		{ "scrot", "/home/srinath/Pictures/%Y-%m-%d.png", NULL };
+static const char *pass[]  = 			{ "passmenu", NULL };
+static const char *lock[]  = 			{ "slock", NULL };
+static const char *pick[]  = 			{ "/home/srinath/.local/bin/pick", NULL };
+static const char *scrshot[]  = 		{ "/home/srinath/.local/bin/scrshot", NULL };
+static const char *killx[]  = 		{ "killall", "xinit", NULL };
 
 // VOLUME
 static const char *upvol[] = 	{ "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%", NULL };
 static const char *downvol[] = 	{ "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%", NULL };
-static const char *mutevol[] = 	{ "pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle", NULL };
+static const char *mutevol[] = 	{ "/home/srinath/.local/bin/mute", NULL };
 
 // MEDIA
 static const char *playpause[] = 	{ "playerctl", "play-pause", NULL };
@@ -106,9 +127,13 @@ static const char *prev[] = 		{ "playerctl", "previous", NULL };
 static Key keys[] = {
 	//MODIFIER                      KEY       FUNCTION          ARGUMENT
 	{ MODKEY,                       XK_r,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_c,      spawn,          {.v = pick } },
+	{ MODKEY,                       XK_x,      spawn,          {.v = lock } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_grave,  spawn,          {.v = scratchpadcmd } },
+	{ MODKEY|ShiftMask,             XK_q, 	   spawn,          {.v = killx } },
+	//{ MODKEY,                       XK_grave,  spawn,  		   {.v = spcmd1 } },
 	{ MODKEY,                       XK_v,      spawn,          {.v = clip } },
+	{ MODKEY,                       XK_p,      spawn,          {.v = pass } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_s,      togglesticky,   {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -131,6 +156,10 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+	{ MODKEY,            			XK_grave,  togglescratch,  {.ui = 0 } },
+	{ MODKEY,            			XK_a,	   togglescratch,  {.ui = 1 } },
+	{ MODKEY,            			XK_e,	   togglescratch,  {.ui = 2 } },
+	{ MODKEY,            			XK_w,	   togglescratch,  {.ui = 3 } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
