@@ -4,11 +4,11 @@ pkgver=6.2
 pkgrel=1
 pkgdesc="A heavily-patched and customized build of dwm from Srinath."
 arch=(x86_64)
-url="https://github.com/knsrinath/dwm.git"
+url="https://github.com/knsrinath/dwm-srinath.git"
 license=('MIT')
 groups=()
 depends=(libx11 libxinerama ttf-jetbrains-mono freetype2)
-makedepends=(make)
+makedepends=(make git)
 checkdepends=()
 optdepends=(st dmenu)
 provides=(dwm)
@@ -27,15 +27,15 @@ pkgver() {
 }
 
 build() {
-  cd dwm
+  cd dwm-srinath
   make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11 FREETYPEINC=/usr/include/freetype2
 }
 
 package() {
-  cd dwm 
+  cd dwm-srinath 
   mkdir -p ${pkgdir}/opt/${pkgname}
   cp -rf * ${pkgdir}/opt/${pkgname}
   make PREFIX=/usr DESTDIR="${pkgdir}" install
-  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/dwm/LICENSE"
-  install -Dm644 README.org "${pkgdir}/usr/share/doc/dwm/README.md"
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/dwm-srinath/LICENSE"
+  install -Dm644 README.org "${pkgdir}/usr/share/doc/dwm-srinath/README.md"
 }
