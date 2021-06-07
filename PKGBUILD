@@ -1,16 +1,16 @@
-# Maintainer: Derek Taylor (DistroTube) <derek@distrotube.com>
-pkgname=dwm-distrotube-git
-pkgver=6.2.r53.d23d097
+# Maintainer: knsrinath <knsrinath2005@gmail.com>
+pkgname=dwm-srinath
+pkgver=6.2
 pkgrel=1
-pkgdesc="A heavily-patched and customized build of dwm from DistroTube."
+pkgdesc="A heavily-patched and customized build of dwm from Srinath."
 arch=(x86_64)
-url="https://gitlab.com/dwt1/dwm-distrotube.git"
+url="https://github.com/knsrinath/dwm.git"
 license=('MIT')
 groups=()
-depends=(libx11 libxinerama ttf-hack ttf-joypixels freetype2 st dmenu libxft-bgra-git dwmblocks-distrotube-git)
+depends=(libx11 libxinerama ttf-jetbrains-mono freetype2)
 makedepends=(make)
 checkdepends=()
-optdepends=(surf)
+optdepends=(st dmenu)
 provides=(dwm)
 conflicts=(dwm)
 replaces=()
@@ -23,20 +23,19 @@ validpgpkeys=()
 
 pkgver() {
   cd "${_pkgname}"
-  printf "6.2.r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+  printf "6.2" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 build() {
-  cd dwm-distrotube
+  cd dwm
   make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11 FREETYPEINC=/usr/include/freetype2
 }
 
 package() {
-  cd dwm-distrotube  
+  cd dwm 
   mkdir -p ${pkgdir}/opt/${pkgname}
   cp -rf * ${pkgdir}/opt/${pkgname}
   make PREFIX=/usr DESTDIR="${pkgdir}" install
-  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/dwm-distrotube/LICENSE"
-  install -Dm644 README.org "${pkgdir}/usr/share/doc/dwm-distrotube/README.org"
-  install -Dm644 "${srcdir}/dwm-distrotube/dwm.desktop" "$pkgdir/usr/share/xsessions/dwm.desktop"
+  install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/dwm/LICENSE"
+  install -Dm644 README.org "${pkgdir}/usr/share/doc/dwm/README.md"
 }
