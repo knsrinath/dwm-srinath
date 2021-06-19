@@ -8,7 +8,6 @@ static const unsigned int gappx     = 10;
 static const int showbar            = 1;
 static const int topbar             = 1;
 static const char buttonbar[]       = "DWM";
-//static const char scratchpadname[] = "scratchpad";
 static const char *fonts[]          = { "Jetbrains Mono:size=10:weight=bold:antialias=true:autohint=true"};
 static const char dmenufont[]       = "Jetbrains Mono:size=10:weight=bold:antialias=true:autohint=true";
 
@@ -30,14 +29,10 @@ typedef struct {
 } Sp;
 const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", "-e", "fish", NULL };
 const char *spcmd2[] = {"st", "-n", "sphtop", "-g", "120x34", "-e", "htop", NULL };
-const char *spcmd3[] = {"st", "-n", "spfm", "-g", "120x34", "-e", "ranger", NULL };
-const char *spcmd4[] = {"st", "-n", "spwt", "-g", "125x40", "-f", "Jetbrains Mono:size=8", "-e", "/home/srinath/.local/bin/weather.sh", NULL };
 static Sp scratchpads[] = {
 	/* name          cmd  */
 	{"spterm",      spcmd1},
 	{"sphtop",    spcmd2},
-	{"spfm",   spcmd3},
-	{"spwt",   spcmd4},
 };
 
 // TAGGING
@@ -71,8 +66,6 @@ static const Rule rules[] = {
 	//{ "scratchpad",                  NULL,       NULL,       1 << 9,            1,           -1 },
 	{ NULL,		  					 "spterm",	   NULL,	   SPTAG(0),		  1,		   -1 },
 	{ NULL,		  					  "sphtop",	   NULL,	   SPTAG(1),		  1,		   -1 },
-	{ NULL,		  					"spfm",			NULL,		SPTAG(2),			1,			 -1 },
-	{ NULL,		  					"spwt",			NULL,		SPTAG(3),			1,			 -1 },
 };
 
 // LAYOUT
@@ -131,7 +124,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_x,      spawn,          {.v = lock } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY|ShiftMask,             XK_q, 	   spawn,          {.v = killx } },
-	//{ MODKEY,                       XK_grave,  spawn,  		   {.v = spcmd1 } },
 	{ MODKEY,                       XK_v,      spawn,          {.v = clip } },
 	{ MODKEY,                       XK_p,      spawn,          {.v = pass } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
@@ -158,8 +150,6 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 	{ MODKEY,            			XK_grave,  togglescratch,  {.ui = 0 } },
 	{ MODKEY,            			XK_a,	   togglescratch,  {.ui = 1 } },
-	{ MODKEY,            			XK_e,	   togglescratch,  {.ui = 2 } },
-	{ MODKEY,            			XK_w,	   togglescratch,  {.ui = 3 } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
