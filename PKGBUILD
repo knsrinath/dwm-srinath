@@ -37,5 +37,4 @@ package() {
   cp -rf * ${pkgdir}/opt/${pkgname}
   make PREFIX=/usr DESTDIR="${pkgdir}" install
   install -Dm644 LICENSE "${pkgdir}/usr/share/licenses/dwm-srinath/LICENSE"
-  install -Dm644 README.org "${pkgdir}/usr/share/doc/dwm-srinath/README.md"
 }
