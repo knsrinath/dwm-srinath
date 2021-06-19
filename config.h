@@ -95,18 +95,17 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = 		{ "dmenu_run", "-m", dmenumon, "-fn", dmenufont, NULL };
 static const char *termcmd[] = 			{ "st", "-e", "fish", NULL };
-//static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", "-e", "htop", NULL };
 static const char *clip[]  = 			{ "clipmenu", NULL };
 static const char *pass[]  = 			{ "passmenu", NULL };
 static const char *lock[]  = 			{ "slock", NULL };
 static const char *pick[]  = 			{ "/home/srinath/.local/bin/pick", NULL };
-static const char *scrshot[]  = 		{ "/home/srinath/.local/bin/scrshot", NULL };
-static const char *killx[]  = 		{ "killall", "xinit", NULL };
+static const char *scrshot[]  = 		{ "scrot", "/home/srinath/Pictures/%Y-%m-%d.png", NULL };
+static const char *killx[]  = 		    { "killall", "xinit", NULL };
 
 // VOLUME
 static const char *upvol[] = 	{ "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+5%", NULL };
 static const char *downvol[] = 	{ "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-5%", NULL };
-static const char *mutevol[] = 	{ "/home/srinath/.local/bin/mute", NULL };
+static const char *mutevol[] = 	{ "pactl", "set-sink-mute", "@DEFAULT_SINK@", "toggle", NULL };
 
 // MEDIA
 static const char *playpause[] = 	{ "playerctl", "play-pause", NULL };
